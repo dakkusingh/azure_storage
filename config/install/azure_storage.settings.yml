@@ -1,1 +1,4 @@
-azure_storage:
+protocol: 'https'
+account_name: ''
+account_key: ''
+endpoint_suffix: ''

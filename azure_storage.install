@@ -13,15 +13,7 @@ use Drupal\Core\Url;
  */
 function azure_storage_requirements($phase) {
   $requirements = [];
-  if ($phase == 'install') {
-    if (!class_exists('\Aws\Azure Storage\Azure StorageClient')) {
-      $requirements['azure_storage_library'] = [
-        'description' => t('azure_storage require Azure Storage library.'),
-        'severity' => REQUIREMENT_ERROR,
-      ];
-    }
-  }
-  if ($phase == 'runtime') {
+  if ($phase === 'runtime') {
     $azure_storage_config = \Drupal::config('azure_storage.settings');
     $access_key = $azure_storage_config->get('access_key');
     $secret_key = $azure_storage_config->get('secret_key');

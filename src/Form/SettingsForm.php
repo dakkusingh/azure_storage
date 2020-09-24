@@ -23,7 +23,7 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'settings_form';
+    return 'azure_storage_settings_form';
   }
 
   /**
@@ -60,6 +60,13 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
+    $form['endpoint_suffix'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Endpoint Suffix'),
+      '#description' => $this->t('The Endpoint Suffix for Azure Storage'),
+      '#default_value' => $config->get('endpoint_suffix'),
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -73,6 +80,7 @@ class SettingsForm extends ConfigFormBase {
       ->set('protocol', $form_state->getValue('protocol'))
       ->set('account_name', $form_state->getValue('account_name'))
       ->set('account_key', $form_state->getValue('account_key'))
+      ->set('endpoint_suffix', $form_state->getValue('endpoint_suffix'))
       ->save();
   }
 
