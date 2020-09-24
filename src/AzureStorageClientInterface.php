@@ -14,25 +14,25 @@ interface AzureStorageClientInterface {
    *
    * When no connection string is given, one will be looked up from config.
    *
-   * @param $connection_string
-   *  Optional Azure connection string.
+   * @param string $connection_string
+   *   Optional Azure connection string.
    *
    * @return $this
-   *  AzureClient.
+   *   AzureClient.
    */
   public function setStorageQueue($connection_string = NULL);
 
   /**
    * Adds a message to the queue.
    *
-   * @param $queue_name
+   * @param string $queue_name
    *   Azure Storage Queue name.
-   * @param $message
+   * @param string $message
    *   Message.
    *
-   * @return $this
-   *  AzureClient.
+   * @return bool
+   *   TRUE or FALSE on failure.
    */
-  function addMessageToQueue($queue_name, $message);
+  public function addMessageToQueue($queue_name, $message);
 
 }

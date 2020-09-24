@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 class AzureStorageClient implements AzureStorageClientInterface {
 
   /**
-   * The Azure Storage settings
+   * The Azure Storage settings.
    *
    * @var \Drupal\Core\Config\Config
    */
@@ -29,6 +29,8 @@ class AzureStorageClient implements AzureStorageClientInterface {
   protected $logger;
 
   /**
+   * Azure Queue client.
+   *
    * @var \MicrosoftAzure\Storage\Queue\Internal\IQueue
    */
   protected $queueClient;
@@ -47,7 +49,7 @@ class AzureStorageClient implements AzureStorageClientInterface {
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function setStorageQueue($connection_string = NULL) {
     if ($connection_string === NULL) {
@@ -62,16 +64,17 @@ class AzureStorageClient implements AzureStorageClientInterface {
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
-  function addMessageToQueue($queue_name, $message) {
+  public function addMessageToQueue($queue_name, $message) {
     try {
       $this->queueClient->createMessage($queue_name, $message);
     }
     catch (ServiceException $e) {
       $this->logger->error($e->getMessage());
+      return FALSE;
     }
-    return $this;
+    return TRUE;
   }
 
 }
