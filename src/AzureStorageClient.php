@@ -55,7 +55,7 @@ class AzureStorageClient implements AzureStorageClientInterface {
     if ($connection_string === NULL) {
       $protocol = $this->config->get('protocol');
       $account_name = $this->config->get('account_name');
-      $account_key = $this->config->get('account_key');
+      $account_key = AzureStorage::getAccountKey();
       $endpoint_suffix = $this->config->get('endpoint_suffix');
       $connection_string = "DefaultEndpointsProtocol=$protocol;AccountName=$account_name;AccountKey=$account_key;EndpointSuffix=$endpoint_suffix";
     }

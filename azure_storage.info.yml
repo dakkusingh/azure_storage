@@ -4,3 +4,5 @@ description: 'Integrates Azure Storage with Drupal'
 core_version_requirement: ^8.8.3 || ^9
 package: Azure
 configure: azure_storage.settings_form
+dependencies:
+  - key:key

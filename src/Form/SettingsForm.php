@@ -53,7 +53,7 @@ class SettingsForm extends ConfigFormBase {
     ];
 
     $form['account_key'] = [
-      '#type' => 'textfield',
+      '#type' => 'key_select',
       '#title' => $this->t('Account Key'),
       '#description' => $this->t('The Account Key for Azure Storage'),
       '#default_value' => $config->get('account_key'),
