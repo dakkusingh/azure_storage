@@ -23,6 +23,17 @@ interface AzureStorageClientInterface {
   public function setStorageQueue($connection_string = NULL);
 
   /**
+   * Get a storage queue connection string.
+   *
+   * @param array $params
+   *   Optional parameters with fallback.
+   *
+   * @return string
+   *   Connection string.
+   */
+  public function getStorageQueueConnectionString(array $params = []) : string;
+
+  /**
    * Adds a message to the queue.
    *
    * @param string $queue_name
@@ -33,6 +44,6 @@ interface AzureStorageClientInterface {
    * @return bool
    *   TRUE or FALSE on failure.
    */
-  public function addMessageToQueue($queue_name, $message);
+  public function addMessageToQueue($queue_name, $message) : bool;
 
 }

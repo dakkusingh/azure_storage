@@ -53,11 +53,7 @@ class AzureStorageClient implements AzureStorageClientInterface {
    */
   public function setStorageQueue($connection_string = NULL) {
     if ($connection_string === NULL) {
-      $protocol = $this->config->get('protocol');
-      $account_name = $this->config->get('account_name');
-      $account_key = AzureStorage::getAccountKey();
-      $endpoint_suffix = $this->config->get('endpoint_suffix');
-      $connection_string = "DefaultEndpointsProtocol=$protocol;AccountName=$account_name;AccountKey=$account_key;EndpointSuffix=$endpoint_suffix";
+      $connection_string = $this->getStorageQueueConnectionString();
     }
     $this->queueClient = QueueRestProxy::createQueueService($connection_string);
     return $this;
@@ -66,7 +62,18 @@ class AzureStorageClient implements AzureStorageClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function addMessageToQueue($queue_name, $message) {
+  public function getStorageQueueConnectionString(array $params = []) : string {
+    $protocol = $params['protocol'] ?? $this->config->get('protocol');
+    $account_name = $params['account_name'] ?? $this->config->get('account_name');
+    $account_key = $params['account_key'] ?? AzureStorage::getAccountKey();
+    $endpoint_suffix = $params['endpoint_suffix'] ?? $this->config->get('endpoint_suffix');
+    return "DefaultEndpointsProtocol=$protocol;AccountName=$account_name;AccountKey=$account_key;EndpointSuffix=$endpoint_suffix";
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function addMessageToQueue($queue_name, $message) : bool {
     try {
       $this->queueClient->createMessage($queue_name, $message);
     }
