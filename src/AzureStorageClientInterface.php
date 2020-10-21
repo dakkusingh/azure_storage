@@ -10,7 +10,7 @@ namespace Drupal\azure_storage;
 interface AzureStorageClientInterface {
 
   /**
-   * Set a storage queue.
+   * Set a storage queue service.
    *
    * When no connection string is given, one will be looked up from config.
    *
@@ -20,7 +20,15 @@ interface AzureStorageClientInterface {
    * @return $this
    *   AzureClient.
    */
-  public function setStorageQueue($connection_string = NULL);
+  public function setStorageQueueService($connection_string = NULL);
+
+  /**
+   * Get the storage queue service.
+   *
+   * @return \MicrosoftAzure\Storage\Queue\Internal\IQueue
+   *   Azure Queue Service.
+   */
+  public function getStorageQueueService();
 
   /**
    * Get a storage queue connection string.
@@ -32,18 +40,5 @@ interface AzureStorageClientInterface {
    *   Connection string.
    */
   public function getStorageQueueConnectionString(array $params = []) : string;
-
-  /**
-   * Adds a message to the queue.
-   *
-   * @param string $queue_name
-   *   Azure Storage Queue name.
-   * @param string $message
-   *   Message.
-   *
-   * @return bool
-   *   TRUE or FALSE on failure.
-   */
-  public function addMessageToQueue($queue_name, $message) : bool;
 
 }

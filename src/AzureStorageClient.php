@@ -3,7 +3,6 @@
 namespace Drupal\azure_storage;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
 use MicrosoftAzure\Storage\Queue\QueueRestProxy;
 use Psr\Log\LoggerInterface;
 
@@ -51,12 +50,19 @@ class AzureStorageClient implements AzureStorageClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function setStorageQueue($connection_string = NULL) {
+  public function setStorageQueueService($connection_string = NULL) {
     if ($connection_string === NULL) {
       $connection_string = $this->getStorageQueueConnectionString();
     }
     $this->queueClient = QueueRestProxy::createQueueService($connection_string);
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getStorageQueueService() {
+    return $this->queueClient;
   }
 
   /**
@@ -68,20 +74,6 @@ class AzureStorageClient implements AzureStorageClientInterface {
     $account_key = $params['account_key'] ?? AzureStorage::getAccountKey();
     $endpoint_suffix = $params['endpoint_suffix'] ?? $this->config->get('endpoint_suffix');
     return "DefaultEndpointsProtocol=$protocol;AccountName=$account_name;AccountKey=$account_key;EndpointSuffix=$endpoint_suffix";
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function addMessageToQueue($queue_name, $message) : bool {
-    try {
-      $this->queueClient->createMessage($queue_name, $message);
-    }
-    catch (ServiceException $e) {
-      $this->logger->error($e->getMessage());
-      return FALSE;
-    }
-    return TRUE;
   }
 
 }
