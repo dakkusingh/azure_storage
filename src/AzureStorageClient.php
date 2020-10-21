@@ -62,6 +62,9 @@ class AzureStorageClient implements AzureStorageClientInterface {
    * {@inheritdoc}
    */
   public function getStorageQueueService() {
+    if ($this->queueClient === NULL) {
+      $this->setStorageQueueService();
+    }
     return $this->queueClient;
   }
 
