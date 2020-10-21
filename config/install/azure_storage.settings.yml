@@ -1,4 +1,6 @@
 protocol: 'https'
 account_name: ''
-account_key: ''
+test_account_key: ''
+live_account_key: ''
+mode: 'test'
 endpoint_suffix: ''

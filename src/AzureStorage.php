@@ -19,8 +19,11 @@ final class AzureStorage {
    *   The key value if found or NULL.
    */
   public static function getAccountKey($key_id = NULL) {
+    $settings = \Drupal::config('azure_storage.settings');
     if ($key_id === NULL) {
-      $key_id = \Drupal::config('azure_storage.settings')->get('account_key');
+      $mode = $settings->get('mode') ?? 'test';
+      $config_key = $mode . '_account_key';
+      $key_id = $settings->get($config_key);
     }
     if ($key_id) {
       /** @var \Drupal\key\KeyRepositoryInterface $key_repository */
