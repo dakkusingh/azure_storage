@@ -23,7 +23,7 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'settings_form';
+    return 'azure_storage_settings_form';
   }
 
   /**
@@ -52,12 +52,37 @@ class SettingsForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
-    $form['account_key'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Account Key'),
+    $form['test_account_key'] = [
+      '#type' => 'key_select',
+      '#title' => $this->t('Account Key (test)'),
       '#description' => $this->t('The Account Key for Azure Storage'),
-      '#default_value' => $config->get('account_key'),
+      '#default_value' => $config->get('test_account_key'),
       '#required' => TRUE,
+    ];
+
+    $form['live_account_key'] = [
+      '#type' => 'key_select',
+      '#title' => $this->t('Account Key (live)'),
+      '#description' => $this->t('The Account Key for Azure Storage'),
+      '#default_value' => $config->get('live_account_key'),
+      '#required' => TRUE,
+    ];
+
+    $form['mode'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Mode'),
+      '#options' => [
+        'test' => $this->t('Test'),
+        'live' => $this->t('Live'),
+      ],
+      '#default_value' => $config->get('mode'),
+    ];
+
+    $form['endpoint_suffix'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Endpoint Suffix'),
+      '#description' => $this->t('The Endpoint Suffix for Azure Storage'),
+      '#default_value' => $config->get('endpoint_suffix'),
     ];
 
     return parent::buildForm($form, $form_state);
@@ -72,7 +97,10 @@ class SettingsForm extends ConfigFormBase {
     $this->config('azure_storage.settings')
       ->set('protocol', $form_state->getValue('protocol'))
       ->set('account_name', $form_state->getValue('account_name'))
-      ->set('account_key', $form_state->getValue('account_key'))
+      ->set('test_account_key', $form_state->getValue('test_account_key'))
+      ->set('live_account_key', $form_state->getValue('live_account_key'))
+      ->set('mode', $form_state->getValue('mode'))
+      ->set('endpoint_suffix', $form_state->getValue('endpoint_suffix'))
       ->save();
   }
 
