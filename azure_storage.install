@@ -14,18 +14,6 @@ use Drupal\Core\Url;
 function azure_storage_requirements($phase) {
   $requirements = [];
   if ($phase === 'runtime') {
-    $azure_storage_config = \Drupal::config('azure_storage.settings');
-    $access_key = $azure_storage_config->get('access_key');
-    $secret_key = $azure_storage_config->get('secret_key');
-    if (!($access_key && $secret_key)) {
-      $requirements['azure_storage'] = [
-        'title' => t('Azure Storage File System'),
-        'severity' => REQUIREMENT_ERROR,
-        'description' => t('Azure Storage File System access key or secret key is not set and it is required for some functionalities to work. Please set it up at the <a href=":settings">Azure Storage File System module settings page</a>.', [
-          ':settings' => Url::fromRoute('azure_storage.admin_settings')->toString(),
-        ]),
-      ];
-    }
 
     if (ini_get('allow_url_fopen')) {
       $requirements['azure_storage_allow_url_fopen'] = [
